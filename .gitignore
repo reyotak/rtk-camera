@@ -1,0 +1,24 @@
+# Android
+.gradle/
+build/
+app/build/
+app/.cxx/
+local.properties
+*.iml
+.idea/
+
+
+# Native
+*.o
+*.so
+*.a
+bin/
+obj/
+
+# Universal
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.log
+.env*
