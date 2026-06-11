@@ -12,9 +12,9 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan (java, cpp, cpptest folders)
-- [ ] T002 Initialize Hilt, CameraX, and Compose dependencies in `app/build.gradle`
-- [ ] T003 [P] Configure NDK/CMake for JNI and GoogleTest in `app/src/main/cpp/CMakeLists.txt`
+- [X] T001 Create project structure per implementation plan (java, cpp, cpptest folders)
+- [X] T002 Initialize Hilt, CameraX, and Compose dependencies in `app/build.gradle`
+- [X] T003 [P] Configure NDK/CMake for JNI and GoogleTest in `app/src/main/cpp/CMakeLists.txt`
 
 ---
 
@@ -22,11 +22,11 @@
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
 
-- [ ] T004 Implement `AlgorithmProcessor` interface in `app/src/main/java/com/rtkcamera/native/AlgorithmProcessor.kt`
-- [ ] T005 [P] Create Hilt modules for Camera and Native components in `app/src/main/java/com/rtkcamera/di/NativeModule.kt`
-- [ ] T006 [P] Implement `NativeBridge` (JNI wrapper) in `app/src/main/java/com/rtkcamera/native/NativeBridge.kt`
-- [ ] T007 [P] Setup GoogleTest structure in `app/src/main/cpptest/CMakeLists.txt`
-- [ ] T008 Create `CameraManager` for lifecycle management in `app/src/main/java/com/rtkcamera/camera/CameraManager.kt`
+- [X] T004 Implement `AlgorithmProcessor` interface in `app/src/main/java/com/rtkcamera/native/AlgorithmProcessor.kt`
+- [X] T005 [P] Create Hilt modules for Camera and Native components in `app/src/main/java/com/rtkcamera/di/NativeModule.kt`
+- [X] T006 [P] Implement `NativeBridge` (JNI wrapper) in `app/src/main/java/com/rtkcamera/native/NativeBridge.kt`
+- [X] T007 [P] Setup GoogleTest structure in `app/src/cpptest/CMakeLists.txt`
+- [X] T008 Create `CameraManager` for lifecycle management in `app/src/main/java/com/rtkcamera/camera/CameraManager.kt`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -40,11 +40,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T009 [P] [US1] Create `AlgorithmInfo` model in `app/src/main/java/com/rtkcamera/native/AlgorithmInfo.kt`
-- [ ] T010 [US1] Implement Dynamic `.so` loader service in `app/src/main/java/com/rtkcamera/native/NativeLoader.kt`
-- [ ] T011 [US1] Implement `process_frame` JNI signature in `app/src/main/cpp/bridge/native_bridge.cpp`
-- [ ] T012 [P] [US1] Create "Dummy" C++ plugin implementation in `app/src/main/cpp/plugin/dummy_plugin.cpp`
-- [ ] T013 [US1] Unit test for `NativeLoader` in `app/src/test/java/com/rtkcamera/native/NativeLoaderTest.kt`
+- [X] T009 [P] [US1] Create `AlgorithmInfo` model in `app/src/main/java/com/rtkcamera/native/AlgorithmInfo.kt`
+- [X] T010 [US1] Implement Dynamic `.so` loader service in `app/src/main/java/com/rtkcamera/native/NativeLoader.kt`
+- [X] T011 [US1] Implement `process_frame` JNI signature in `app/src/main/cpp/bridge/native_bridge.cpp`
+- [X] T012 [P] [US1] Create "Dummy" C++ plugin implementation in `app/src/main/cpp/plugin/dummy_plugin.cpp`
+- [X] T013 [US1] Unit test for `NativeLoader` in `app/src/test/java/com/rtkcamera/native/NativeLoaderTest.kt`
 
 **Checkpoint**: User Story 1 functional - Native plugins can be loaded and called.
 
@@ -58,9 +58,9 @@
 
 ### Implementation for User Story 5
 
-- [ ] T014 [P] [US5] Implement `CameraMetadata` JSON serialization in `app/src/main/java/com/rtkcamera/native/MetadataSerializer.kt`
-- [ ] T015 [US5] Implement C++ JSON parser using `nlohmann/json` in `app/src/main/cpp/core/metadata_parser.cpp`
-- [ ] T016 [P] [US5] Native GoogleTest for `metadata_parser` in `app/src/main/cpptest/test_metadata.cpp`
+- [X] T014 [P] [US5] Implement `CameraMetadata` JSON serialization in `app/src/main/java/com/rtkcamera/native/MetadataSerializer.kt`
+- [X] T015 [US5] Implement C++ JSON parser using `nlohmann/json` in `app/src/main/cpp/core/metadata_parser.cpp`
+- [X] T016 [P] [US5] Native GoogleTest for `metadata_parser` in `app/src/main/cpptest/test_metadata.cpp`
 
 **Checkpoint**: User Story 5 functional - Metadata is reliably passed to the native layer.
 
@@ -74,10 +74,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T017 [US2] Implement `CameraX` ImageAnalysis pipeline in `app/src/main/java/com/rtkcamera/camera/AnalysisPipeline.kt`
-- [ ] T018 [US2] Create Compose Viewfinder with algorithm overlay in `app/src/main/java/com/rtkcamera/ui/ViewfinderScreen.kt`
-- [ ] T019 [US2] Implement frame-dropping and performance warning logic in `app/src/main/java/com/rtkcamera/ui/CameraViewModel.kt`
-- [ ] T020 [US2] Compose UI test for viewfinder in `app/src/androidTest/java/com/rtkcamera/ui/ViewfinderTest.kt`
+- [X] T017 [US2] Implement `CameraX` ImageAnalysis pipeline in `app/src/main/java/com/rtkcamera/camera/AnalysisPipeline.kt`
+- [X] T018 [US2] Create Compose Viewfinder with algorithm overlay in `app/src/main/java/com/rtkcamera/ui/ViewfinderScreen.kt`
+- [X] T019 [US2] Implement frame-dropping and performance warning logic in `app/src/main/java/com/rtkcamera/ui/CameraViewModel.kt`
+- [X] T020 [US2] Compose UI test for viewfinder in `app/src/androidTest/java/com/rtkcamera/ui/ViewfinderTest.kt`
 
 **Checkpoint**: User Story 2 functional - Real-time processing with feedback is live.
 
@@ -91,10 +91,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T021 [US3] Implement `CameraX` ImageCapture path in `app/src/main/java/com/rtkcamera/camera/CapturePipeline.kt`
-- [ ] T022 [US3] Implement `MediaStore` saving logic in `app/src/main/java/com/rtkcamera/camera/GalleryRepository.kt`
-- [ ] T023 [US3] Add "Manual Trigger" button to `ViewfinderScreen.kt`
-- [ ] T024 [US3] Audit snapshot resolution against sensor capabilities (SC-004)
+- [X] T021 [US3] Implement `CameraX` ImageCapture path in `app/src/main/java/com/rtkcamera/camera/CapturePipeline.kt`
+- [X] T022 [US3] Implement `MediaStore` saving logic in `app/src/main/java/com/rtkcamera/camera/GalleryRepository.kt`
+- [X] T023 [US3] Add "Manual Trigger" button to `ViewfinderScreen.kt`
+- [X] T024 [US3] Audit snapshot resolution against sensor capabilities (SC-004)
 
 **Checkpoint**: User Story 3 functional - High-res capture works.
 
@@ -108,8 +108,8 @@
 
 ### Implementation for User Story 4
 
-- [ ] T025 [P] [US4] Create Algorithm Selection Menu in `app/src/main/java/com/rtkcamera/ui/components/AlgorithmMenu.kt`
-- [ ] T026 [US4] Implement algorithm switching logic in `CameraViewModel.kt`
+- [X] T025 [P] [US4] Create Algorithm Selection Menu in `app/src/main/java/com/rtkcamera/ui/components/AlgorithmMenu.kt`
+- [X] T026 [US4] Implement algorithm switching logic in `CameraViewModel.kt`
 
 **Checkpoint**: All user stories functional.
 
@@ -117,9 +117,9 @@
 
 ## Phase 8: Polish & Cross-Cutting Concerns
 
-- [ ] T027 [P] Run all validation scenarios in `quickstart.md`
-- [ ] T028 Code cleanup and JNI memory safety audit
-- [ ] T029 Performance profiling of `DirectByteBuffer` passing
+- [X] T027 [P] Run all validation scenarios in `quickstart.md`
+- [X] T028 Code cleanup and JNI memory safety audit
+- [X] T029 Performance profiling of `DirectByteBuffer` passing
 
 ---
 

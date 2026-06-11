@@ -1,0 +1,21 @@
+# ninja log v6
+0	33	1781134247062827534	json-populate-prefix/src/json-populate-stamp/json-populate-mkdir	155474a73ef842e3
+0	33	1781134247062827534	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-mkdir	155474a73ef842e3
+34	160	1781134247190829060	json-populate-prefix/src/json-populate-stamp/json-populate-download	435da24e011643e5
+34	160	1781134247190829060	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-download	435da24e011643e5
+160	173	1781134247202829204	json-populate-prefix/src/json-populate-stamp/json-populate-update	af20256602672ba4
+160	173	1781134247202829204	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-update	af20256602672ba4
+173	183	1781134247214829346	json-populate-prefix/src/json-populate-stamp/json-populate-patch	7d6650ae42b7e79e
+173	183	1781134247214829346	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-patch	7d6650ae42b7e79e
+183	196	1781134247226829490	json-populate-prefix/src/json-populate-stamp/json-populate-configure	e0eb2058dfbf2337
+183	196	1781134247226829490	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-configure	e0eb2058dfbf2337
+196	209	1781134247238829632	json-populate-prefix/src/json-populate-stamp/json-populate-build	caa5cd9632aceec3
+196	209	1781134247238829632	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-build	caa5cd9632aceec3
+209	219	1781134247250829776	json-populate-prefix/src/json-populate-stamp/json-populate-install	79d08565964992b1
+209	219	1781134247250829776	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-install	79d08565964992b1
+219	232	1781134247262829918	json-populate-prefix/src/json-populate-stamp/json-populate-test	663ce8820ed568cc
+219	232	1781134247262829918	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-test	663ce8820ed568cc
+232	250	1781134247278830109	CMakeFiles/json-populate-complete	e1fd47de0f79fefd
+232	250	1781134247278830109	json-populate-prefix/src/json-populate-stamp/json-populate-done	e1fd47de0f79fefd
+232	250	1781134247278830109	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/CMakeFiles/json-populate-complete	e1fd47de0f79fefd
+232	250	1781134247278830109	/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-subbuild/json-populate-prefix/src/json-populate-stamp/json-populate-done	e1fd47de0f79fefd

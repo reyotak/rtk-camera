@@ -1,0 +1,1 @@
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/build/intermediates/cxx/Debug/642y5c5f/obj/x86

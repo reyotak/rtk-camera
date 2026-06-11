@@ -1,0 +1,6 @@
+# ninja log v6
+2	20	1781134244962802431	CMakeFiles/dummy_plugin.dir/plugin/dummy_plugin.cpp.o	69421028a328a67d
+20	48	1781134244978802623	/home/renan/Repo/rtk-camera-app/rtk-camera/app/build/intermediates/cxx/RelWithDebInfo/12p2q406/obj/x86/libdummy_plugin.so	aeea44fe9d624acc
+0	276	1781134244958802383	CMakeFiles/rtkcamera.dir/bridge/native_bridge.cpp.o	f243371eefea88b8
+1	1881	1781134244958802383	CMakeFiles/rtkcamera.dir/core/metadata_parser.cpp.o	adba49d5c5fd3d79
+1882	1909	1781134246842824908	/home/renan/Repo/rtk-camera-app/rtk-camera/app/build/intermediates/cxx/RelWithDebInfo/12p2q406/obj/x86/librtkcamera.so	9893329300184d45

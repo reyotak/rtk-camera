@@ -1,0 +1,2 @@
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/Debug/642y5c5f/armeabi-v7a/_deps/json-src/CMakeLists.txt
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/src/main/cpp/CMakeLists.txt

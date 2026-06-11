@@ -1,0 +1,46 @@
+{
+  "buildFiles": [
+    "/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86/_deps/json-src/CMakeLists.txt",
+    "/home/renan/Repo/rtk-camera-app/rtk-camera/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/renan/Android/Sdk/cmake/4.1.2/bin/ninja",
+      "-C",
+      "/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/renan/Android/Sdk/cmake/4.1.2/bin/ninja",
+    "-C",
+    "/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "dummy_plugin::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "dummy_plugin",
+      "output": "/home/renan/Repo/rtk-camera-app/rtk-camera/app/build/intermediates/cxx/RelWithDebInfo/12p2q406/obj/x86/libdummy_plugin.so",
+      "runtimeFiles": []
+    },
+    "rtkcamera::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "rtkcamera",
+      "output": "/home/renan/Repo/rtk-camera-app/rtk-camera/app/build/intermediates/cxx/RelWithDebInfo/12p2q406/obj/x86/librtkcamera.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/home/renan/Android/Sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/linux-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/home/renan/Android/Sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

@@ -1,0 +1,6 @@
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/armeabi-v7a/CMakeFiles/rtkcamera.dir
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/armeabi-v7a/CMakeFiles/dummy_plugin.dir
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/armeabi-v7a/_deps/json-build/CMakeFiles/edit_cache.dir
+/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/armeabi-v7a/_deps/json-build/CMakeFiles/rebuild_cache.dir
