@@ -1,5 +1,11 @@
 package com.rtkcamera.ui
 
+import android.Manifest
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -7,12 +13,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.rtkcamera.camera.AnalysisPipeline
 import com.rtkcamera.ui.components.AlgorithmMenu
 
 /**
@@ -24,19 +28,65 @@ fun ViewfinderScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        viewModel.onPermissionResult(isGranted)
+    }
+
+    LaunchedEffect(Unit) {
+        permissionLauncher.launch(Manifest.permission.CAMERA)
+    }
     
     Box(modifier = modifier.fillMaxSize()) {
-        // Camera Preview
-        AndroidView(
-            factory = { ctx ->
-                PreviewView(ctx).apply {
-                    implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+        if (uiState.hasCameraPermission) {
+            val cameraProvider = viewModel.cameraProviderFlow.collectAsStateWithLifecycle().value
+            if (cameraProvider != null) {
+                // Camera Preview
+                AndroidView(
+                    factory = { ctx ->
+                        PreviewView(ctx).apply {
+                            scaleType = PreviewView.ScaleType.FILL_CENTER
+                            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize(),
+                    update = { previewView ->
+                        val preview = Preview.Builder().build().also {
+                            it.setSurfaceProvider(previewView.surfaceProvider)
+                        }
+                        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+                        try {
+                            cameraProvider.unbindAll()
+                            cameraProvider.bindToLifecycle(
+                                lifecycleOwner,
+                                cameraSelector,
+                                preview
+                            )
+                        } catch (exc: Exception) {
+                            Log.e("ViewfinderScreen", "Use case binding failed", exc)
+                            viewModel.onCameraError("Binding failed")
+                        }
+                    }
+                )
+            } else if (uiState.cameraError == null) {
+                // Loading provider
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(color = Color.White)
                 }
-            },
-            modifier = Modifier.fillMaxSize()
-        )
+            }
+        }
+
+        // Camera Error Fallback UI
+        uiState.cameraError?.let { errorMsg ->
+            Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
+                Surface(color = Color.Black.copy(alpha = 0.7f), shape = MaterialTheme.shapes.medium) {
+                    Text(text = errorMsg, color = Color.White, modifier = Modifier.padding(16.dp))
+                }
+            }
+        }
 
         // Algorithm Selection Menu (User Story 4)
         AlgorithmMenu(
