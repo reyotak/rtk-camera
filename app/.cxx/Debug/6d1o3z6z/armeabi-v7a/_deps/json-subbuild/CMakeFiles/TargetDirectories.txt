@@ -1,3 +1,0 @@
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/Debug/6d1o3z6z/armeabi-v7a/_deps/json-subbuild/CMakeFiles/json-populate.dir
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/Debug/6d1o3z6z/armeabi-v7a/_deps/json-subbuild/CMakeFiles/edit_cache.dir
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/Debug/6d1o3z6z/armeabi-v7a/_deps/json-subbuild/CMakeFiles/rebuild_cache.dir

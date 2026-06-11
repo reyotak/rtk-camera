@@ -1,6 +1,0 @@
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/CMakeFiles/rtkcamera.dir
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/CMakeFiles/dummy_plugin.dir
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/CMakeFiles/edit_cache.dir
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/CMakeFiles/rebuild_cache.dir
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-build/CMakeFiles/edit_cache.dir
-/home/renan/Repo/rtk-camera-app/rtk-camera/app/.cxx/RelWithDebInfo/12p2q406/x86_64/_deps/json-build/CMakeFiles/rebuild_cache.dir
