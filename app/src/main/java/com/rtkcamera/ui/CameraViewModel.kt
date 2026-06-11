@@ -12,12 +12,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import androidx.camera.lifecycle.ProcessCameraProvider
+import com.rtkcamera.camera.CameraManager
 
 /**
  * UI State for the Camera Screen.
  * Matches the Data Model.
  */
 data class CameraUiState(
+    val hasCameraPermission: Boolean = false,
+    val cameraError: String? = null,
     val activeAlgorithmId: String? = null,
     val availableAlgorithms: List<AlgorithmInfo> = emptyList(),
     val isProcessing: Boolean = false,
@@ -31,8 +35,12 @@ data class CameraUiState(
 @HiltViewModel
 class CameraViewModel @Inject constructor(
     private val nativeLoader: NativeLoader,
-    private val analysisPipeline: AnalysisPipeline
+    private val analysisPipeline: AnalysisPipeline,
+    private val cameraManager: CameraManager
 ) : ViewModel() {
+
+    private val _cameraProviderFlow = MutableStateFlow<ProcessCameraProvider?>(null)
+    val cameraProviderFlow = _cameraProviderFlow.asStateFlow()
 
     private val _uiState = MutableStateFlow(CameraUiState())
     val uiState = _uiState.asStateFlow()
@@ -77,6 +85,23 @@ class CameraViewModel @Inject constructor(
         // Implementation will depend on the CameraX setup in the View
         // For now, we signal the intent or handle it via a callback.
         Log.d(TAG, "Capture triggered")
+    }
+
+    fun onPermissionResult(granted: Boolean) {
+        _uiState.value = _uiState.value.copy(hasCameraPermission = granted, cameraError = if (granted) null else "Camera permission denied")
+        if (granted) {
+            viewModelScope.launch {
+                try {
+                    _cameraProviderFlow.value = cameraManager.getCameraProvider()
+                } catch (e: Exception) {
+                    _uiState.value = _uiState.value.copy(cameraError = "Failed to initialize camera provider")
+                }
+            }
+        }
+    }
+
+    fun onCameraError(error: String) {
+        _uiState.value = _uiState.value.copy(cameraError = error)
     }
 
     companion object {
