@@ -1,6 +1,7 @@
 package com.rtkcamera.ui
 
-import android.util.Log
+import android.content.Context
+import androidx.camera.core.ImageCapture
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rtkcamera.camera.AnalysisPipeline
@@ -13,7 +14,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import com.rtkcamera.camera.CameraManager
+import com.rtkcamera.camera.CapturePipeline
 
 /**
  * UI State for the Camera Screen.
@@ -36,6 +39,7 @@ data class CameraUiState(
 class CameraViewModel @Inject constructor(
     private val nativeLoader: NativeLoader,
     private val analysisPipeline: AnalysisPipeline,
+    private val capturePipeline: CapturePipeline,
     private val cameraManager: CameraManager
 ) : ViewModel() {
 
@@ -81,10 +85,8 @@ class CameraViewModel @Inject constructor(
     /**
      * Handles manual capture trigger.
      */
-    fun onCaptureTriggered() {
-        // Implementation will depend on the CameraX setup in the View
-        // For now, we signal the intent or handle it via a callback.
-        Log.d(TAG, "Capture triggered")
+    fun onCaptureTriggered(imageCapture: ImageCapture, context: Context) {
+        capturePipeline.takeSnapshot(imageCapture, ContextCompat.getMainExecutor(context))
     }
 
     fun onPermissionResult(granted: Boolean) {

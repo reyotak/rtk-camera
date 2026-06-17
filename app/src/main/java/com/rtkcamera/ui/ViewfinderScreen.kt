@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.*
@@ -13,9 +14,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rtkcamera.ui.components.AlgorithmMenu
 
@@ -25,10 +29,12 @@ import com.rtkcamera.ui.components.AlgorithmMenu
 @Composable
 fun ViewfinderScreen(
     viewModel: CameraViewModel,
+    capturePipeline: com.rtkcamera.camera.CapturePipeline,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -39,6 +45,9 @@ fun ViewfinderScreen(
     LaunchedEffect(Unit) {
         permissionLauncher.launch(Manifest.permission.CAMERA)
     }
+
+    // Camera capture
+    val imageCapture = ImageCapture.Builder().build()
     
     Box(modifier = modifier.fillMaxSize()) {
         if (uiState.hasCameraPermission) {
@@ -63,7 +72,8 @@ fun ViewfinderScreen(
                             cameraProvider.bindToLifecycle(
                                 lifecycleOwner,
                                 cameraSelector,
-                                preview
+                                preview,
+                                imageCapture
                             )
                         } catch (exc: Exception) {
                             Log.e("ViewfinderScreen", "Use case binding failed", exc)
@@ -129,8 +139,10 @@ fun ViewfinderScreen(
 
             // Manual Capture Trigger (User Story 3)
             Button(
-                onClick = { viewModel.onCaptureTriggered() },
-                modifier = Modifier.size(72.dp),
+                onClick = { viewModel.onCaptureTriggered(imageCapture, context) },
+                modifier = Modifier
+                    .size(72.dp)
+                    .semantics { contentDescription = "Capture Photo" },
                 shape = MaterialTheme.shapes.extraLarge,
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.8f))
             ) {
