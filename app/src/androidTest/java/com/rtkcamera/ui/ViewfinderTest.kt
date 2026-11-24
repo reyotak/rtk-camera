@@ -1,45 +1,95 @@
 package com.rtkcamera.ui
 
-import androidx.compose.ui.test.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.rtkcamera.camera.AnalysisPipeline
-import com.rtkcamera.nativebridge.NativeLoader
-import io.mockk.every
-import io.mockk.mockk
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import com.rtkcamera.ui.theme.RtkCameraTheme
 import org.junit.Rule
 import org.junit.Test
 
 /**
- * Instrumentation test for the ViewfinderScreen.
- * Verifies that the UI correctly reacts to performance changes.
+ * Instrumentation tests for the Penpot RTK-Camera HUD UI and UI state transitions.
  */
 class ViewfinderTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val nativeLoader = mockk<NativeLoader>(relaxed = true)
-    private val analysisPipeline = mockk<AnalysisPipeline>(relaxed = true)
-
     @Test
     fun performanceWarning_isDisplayed_whenSetInState() {
-        val viewModel = CameraViewModel(nativeLoader, analysisPipeline)
-        
-        // Mock slow processing (100ms > 33ms)
-        every { analysisPipeline.getLastProcessingTimeMs() } returns 100
-
         composeTestRule.setContent {
-            ViewfinderScreen(viewModel = viewModel)
+            RtkCameraTheme {
+                ViewfinderContent(
+                    uiState = CameraUiState(
+                        captureState = CaptureState.VideoRecording(elapsedSeconds = 108L),
+                        telemetryFps = 17f,
+                        telemetryLatencyMs = 58.4f,
+                        performanceWarning = "Low FPS Warning: 17 fps (58 ms)"
+                    ),
+                    callbacks = ViewfinderCallbacks()
+                )
+            }
         }
 
-        // Wait for the background loop in ViewModel to update state (triggered by init)
-        composeTestRule.waitUntil(5000) {
-            composeTestRule
-                .onAllNodesWithText("Low FPS", substring = true)
-                .fetchSemanticsNodes()
-                .isNotEmpty()
+        composeTestRule
+            .onNodeWithText("Budget: 33ms Exceeded", substring = true)
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Optimize Parameters").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Dismiss").assertIsDisplayed()
+    }
+
+    @Test
+    fun uiStateTransitions_openSheetsAndSnapshotInspector() {
+        composeTestRule.setContent {
+            RtkCameraTheme {
+                var uiState by remember { mutableStateOf(CameraUiState()) }
+                ViewfinderContent(
+                    uiState = uiState,
+                    callbacks = ViewfinderCallbacks(
+                        onCycleFlashMode = { uiState = CameraUiTransitions.cycleFlashMode(uiState) },
+                        onSettingsClick = { uiState = CameraUiTransitions.openSheet(uiState, ActiveSheet.SETTINGS) },
+                        onSelectCaptureMode = { mode -> uiState = CameraUiTransitions.selectCaptureMode(uiState, mode) },
+                        onOpenSheet = { sheet -> uiState = CameraUiTransitions.openSheet(uiState, sheet) },
+                        onDismissSheet = { uiState = CameraUiTransitions.dismissSheet(uiState) },
+                        onOpenSnapshotInspector = { uiState = CameraUiTransitions.openSnapshotInspector(uiState) },
+                        onCloseSnapshotInspector = { uiState = CameraUiTransitions.closeSnapshotInspector(uiState) }
+                    )
+                )
+            }
         }
 
-        composeTestRule.onNodeWithText("Low FPS", substring = true).assertIsDisplayed()
+        // Open Settings Sheet (Hi-Fi 07)
+        composeTestRule.onNodeWithContentDescription("Settings").performClick()
+        composeTestRule.onNodeWithText("Field & RTK Settings").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Close").performClick()
+
+        // Open Algorithm Tuning Drawer (Hi-Fi 02)
+        composeTestRule.onNodeWithText("Canny-Edge", substring = true).performClick()
+        composeTestRule.onNodeWithText("Algorithm Sandbox & Tuning").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Close").performClick()
+
+        // Open Pro Camera Parameters Sheet (Hi-Fi 05)
+        composeTestRule.onNodeWithContentDescription("Pro Camera Parameters").performClick()
+        composeTestRule.onNodeWithText("Pro Camera Parameters").assertIsDisplayed()
+        composeTestRule.onNodeWithText("ASPECT RATIO & RESOLUTION").assertIsDisplayed()
+        composeTestRule.onNodeWithText("4:3 • 1080p").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Close").performClick()
+
+        // Open Automated Capture & Intervalometer Sheet (Hi-Fi 06)
+        composeTestRule.onNodeWithContentDescription("Automated Capture & Intervalometer").performClick()
+        composeTestRule.onNodeWithText("Automated Capture & Intervalometer").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Close").performClick()
+
+        // Open Snapshot Inspector (Hi-Fi 04) and navigate back
+        composeTestRule.onNodeWithContentDescription("Open Snapshot Inspector").performClick()
+        composeTestRule.onNodeWithText("Snapshot Inspector").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Back to Viewfinder").performClick()
+        composeTestRule.onNodeWithContentDescription("Pro Camera Parameters").assertIsDisplayed()
     }
 }
