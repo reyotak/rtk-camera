@@ -53,7 +53,8 @@ class ViewfinderTest {
                     uiState = uiState,
                     callbacks = ViewfinderCallbacks(
                         onCycleFlashMode = { uiState = CameraUiTransitions.cycleFlashMode(uiState) },
-                        onSettingsClick = { uiState = CameraUiTransitions.openSheet(uiState, ActiveSheet.SETTINGS) },
+                        onHelpClick = { uiState = CameraUiTransitions.openSheet(uiState, ActiveSheet.HELP) },
+                        onUpdateSettings = { transform -> uiState = CameraUiTransitions.updateSettings(uiState, transform) },
                         onSelectCaptureMode = { mode -> uiState = CameraUiTransitions.selectCaptureMode(uiState, mode) },
                         onOpenSheet = { sheet -> uiState = CameraUiTransitions.openSheet(uiState, sheet) },
                         onDismissSheet = { uiState = CameraUiTransitions.dismissSheet(uiState) },
@@ -64,9 +65,14 @@ class ViewfinderTest {
             }
         }
 
-        // Open Settings Sheet (Hi-Fi 07)
-        composeTestRule.onNodeWithContentDescription("Settings").performClick()
-        composeTestRule.onNodeWithText("Field & RTK Settings").assertIsDisplayed()
+        // Open Help Sheet, navigate to Tutorial & About, then close
+        composeTestRule.onNodeWithContentDescription("Help").performClick()
+        composeTestRule.onNodeWithText("Help & Field Guide").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Quick Start Tutorial").performClick()
+        composeTestRule.onNodeWithText("Frame & Tap to Focus").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Back to Help Menu").performClick()
+        composeTestRule.onNodeWithText("About RTK-Camera").performClick()
+        composeTestRule.onNodeWithText("v1.0.0").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Close").performClick()
 
         // Open Algorithm Tuning Drawer (Hi-Fi 02)

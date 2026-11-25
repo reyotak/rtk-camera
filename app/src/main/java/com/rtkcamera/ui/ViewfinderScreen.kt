@@ -40,9 +40,9 @@ import com.rtkcamera.ui.components.BottomControlDeck
 import com.rtkcamera.ui.components.BottomViewfinderScrim
 import com.rtkcamera.ui.components.CountdownOverlay
 import com.rtkcamera.ui.components.FocusReticleOverlay
+import com.rtkcamera.ui.components.HelpSheet
 import com.rtkcamera.ui.components.ProParametersSheet
 import com.rtkcamera.ui.components.RuleOfThirdsGridOverlay
-import com.rtkcamera.ui.components.SettingsSheet
 import com.rtkcamera.ui.components.ShutterFlashOverlay
 import com.rtkcamera.ui.components.TopPreviewOverlay
 import com.rtkcamera.ui.components.TopViewfinderScrim
@@ -54,7 +54,7 @@ import com.rtkcamera.ui.theme.RtkColorTokens
  */
 data class ViewfinderCallbacks(
     val onCycleFlashMode: () -> Unit = {},
-    val onSettingsClick: () -> Unit = {},
+    val onHelpClick: () -> Unit = {},
     val onSelectCaptureMode: (CaptureMode) -> Unit = {},
     val onSelectZoom: (ZoomLevel) -> Unit = {},
     val onViewfinderTap: (Float, Float) -> Unit = { _, _ -> },
@@ -103,7 +103,7 @@ fun ViewfinderScreen(
 
     val callbacks = ViewfinderCallbacks(
         onCycleFlashMode = viewModel::onCycleFlashMode,
-        onSettingsClick = { viewModel.onOpenSheet(ActiveSheet.SETTINGS) },
+        onHelpClick = { viewModel.onOpenSheet(ActiveSheet.HELP) },
         onSelectCaptureMode = viewModel::onSelectCaptureMode,
         onSelectZoom = viewModel::onSelectZoom,
         onViewfinderTap = viewModel::onViewfinderTap,
@@ -262,7 +262,7 @@ fun ViewfinderContent(
                     CountdownOverlay(secondsRemaining = countdownState.secondsRemaining)
                 }
 
-                // Floating Top Preview Overlay (FPS pill / Active Badges / REC timer / Warning Card + Settings)
+                // Floating Top Preview Overlay (FPS pill / Active Badges / REC timer / Warning Card)
                 TopPreviewOverlay(
                     captureState = uiState.captureState,
                     fps = uiState.telemetryFps,
@@ -273,7 +273,6 @@ fun ViewfinderContent(
                     proSummaryBadge = uiState.proParameters.summaryBadge,
                     armedSummaryBadge = uiState.automatedCapture.armedSummaryBadge,
                     isPerformanceWarningVisible = isWarningVisible,
-                    onSettingsClick = callbacks.onSettingsClick,
                     onOptimizeClick = callbacks.onOptimizeParametersClick,
                     onDismissWarningClick = callbacks.onDismissPerformanceWarning,
                     modifier = Modifier.align(Alignment.TopCenter)
@@ -325,6 +324,7 @@ fun ViewfinderContent(
                 onAutomatedCaptureClick = { callbacks.onOpenSheet(ActiveSheet.AUTOMATED_CAPTURE) },
                 onGalleryClick = callbacks.onOpenSnapshotInspector,
                 onAlgorithmPillClick = { callbacks.onOpenSheet(ActiveSheet.ALGORITHM_TUNING) },
+                onHelpClick = callbacks.onHelpClick,
                 onSelectCaptureMode = callbacks.onSelectCaptureMode
             )
         }
@@ -364,8 +364,8 @@ fun ViewfinderContent(
                 )
             }
 
-            ActiveSheet.SETTINGS -> {
-                SettingsSheet(
+            ActiveSheet.HELP -> {
+                HelpSheet(
                     state = uiState.appSettings,
                     onUpdateState = callbacks.onUpdateSettings,
                     onDismiss = callbacks.onDismissSheet

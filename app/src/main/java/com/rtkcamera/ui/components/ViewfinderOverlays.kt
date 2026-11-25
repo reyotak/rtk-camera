@@ -543,7 +543,7 @@ private fun FlashOverlayButton(
 }
 
 /**
- * Circular Zoom Bar (.5 / 1x / 2) with 48x48dp accessible hit targets around each visual circle.
+ * Pixel-style unified Zoom Pill (.5 / 1x / 2) nested inside a single frosted dark capsule.
  */
 @Composable
 fun CircularZoomBar(
@@ -551,42 +551,44 @@ fun CircularZoomBar(
     onSelectZoom: (ZoomLevel) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    Surface(
+        color = RtkColorTokens.SurfaceModeToggle.copy(alpha = 0.86f),
+        shape = RoundedCornerShape(24.dp),
+        border = BorderStroke(1.dp, RtkColorTokens.BorderMuted),
+        modifier = modifier.height(44.dp)
     ) {
-        ZoomLevel.entries.forEach { zoom ->
-            val isSelected = zoom == selectedZoom
-            val visualSize = if (isSelected) 38.dp else 32.dp
-            val bg = if (isSelected) {
-                RtkColorTokens.AccentCyan.copy(alpha = 0.95f)
-            } else {
-                RtkColorTokens.SurfaceZoomIdle.copy(alpha = 0.78f)
-            }
-            val borderColor = if (isSelected) RtkColorTokens.TextPrimary else RtkColorTokens.BorderMuted
-            val borderWidth = if (isSelected) 2.dp else 1.dp
-            val textColor = if (isSelected) RtkColorTokens.TextOnAccent else RtkColorTokens.TextZoomIdle
+        Row(
+            modifier = Modifier.padding(horizontal = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            ZoomLevel.entries.forEach { zoom ->
+                val isSelected = zoom == selectedZoom
+                val bg = if (isSelected) {
+                    RtkColorTokens.AccentCyan.copy(alpha = 0.95f)
+                } else {
+                    Color.Transparent
+                }
+                val textColor = if (isSelected) {
+                    RtkColorTokens.TextOnAccent
+                } else {
+                    RtkColorTokens.TextZoomIdle
+                }
 
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .clickable { onSelectZoom(zoom) },
-                contentAlignment = Alignment.Center
-            ) {
                 Surface(
                     color = bg,
                     shape = CircleShape,
-                    border = BorderStroke(borderWidth, borderColor),
-                    modifier = Modifier.size(visualSize)
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .clickable { onSelectZoom(zoom) }
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Text(
                             text = zoom.label,
                             style = MaterialTheme.typography.labelMedium.copy(
-                                fontSize = if (isSelected) 13.sp else 11.sp,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                fontSize = if (isSelected) 12.sp else 11.sp,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                                 color = textColor
                             )
                         )

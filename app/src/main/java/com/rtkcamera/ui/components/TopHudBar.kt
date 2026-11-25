@@ -2,7 +2,6 @@ package com.rtkcamera.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,13 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rtkcamera.ui.CaptureState
 import com.rtkcamera.ui.formatRecordingTimer
-import com.rtkcamera.ui.icons.RtkIcons
 import com.rtkcamera.ui.theme.RtkColorTokens
 import com.rtkcamera.ui.theme.RtkTelemetryTextStyle
 
 /**
  * Floating transparent Top Preview Overlay rendered directly over the edge-to-edge viewfinder:
- * - Idle: Top-left FPS pill + optional active Pro/Armed badges, Top-right Settings button (48dp hitbox)
+ * - Idle: Top-left FPS pill + optional active Pro/Armed badges (clean top-right)
  * - Countdown: Top-left FPS pill
  * - Video Recording: Top-center REC timer pill (or compact left badge with Performance Warning Card)
  * - Photo Capturing: Top-left FPS pill + optional Burst progress pill
@@ -52,7 +49,6 @@ fun TopPreviewOverlay(
     proSummaryBadge: String?,
     armedSummaryBadge: String?,
     isPerformanceWarningVisible: Boolean,
-    onSettingsClick: () -> Unit,
     onOptimizeClick: () -> Unit,
     onDismissWarningClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -61,28 +57,11 @@ fun TopPreviewOverlay(
         modifier = modifier
             .fillMaxWidth()
             .statusBarsPadding()
-            .padding(horizontal = 14.dp, vertical = 8.dp),
+            .padding(horizontal = 18.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         when (captureState) {
             is CaptureState.Idle -> {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    if (showTelemetryHud && !isPerformanceWarningVisible) {
-                        TelemetryFpsPill(
-                            fps = fps,
-                            latencyMs = latencyMs,
-                            modifier = Modifier.padding(start = 4.dp)
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.width(1.dp))
-                    }
-                    SettingsPillButton(onClick = onSettingsClick)
-                }
-
                 if (isPerformanceWarningVisible) {
                     PerformanceWarningCard(
                         fps = fps,
@@ -90,28 +69,33 @@ fun TopPreviewOverlay(
                         frameDropPercent = frameDropPercent,
                         algorithmName = algorithmName,
                         onOptimizeClick = onOptimizeClick,
-                        onDismissClick = onDismissWarningClick,
-                        modifier = Modifier.padding(horizontal = 4.dp)
+                        onDismissClick = onDismissWarningClick
                     )
-                } else if (proSummaryBadge != null || armedSummaryBadge != null) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 4.dp),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (proSummaryBadge != null) {
-                            ActiveStatusBadge(
-                                text = proSummaryBadge,
-                                accentColor = RtkColorTokens.AccentCyan
-                            )
-                        }
-                        if (armedSummaryBadge != null) {
-                            ActiveStatusBadge(
-                                text = armedSummaryBadge,
-                                accentColor = RtkColorTokens.AccentMint
-                            )
+                } else {
+                    if (showTelemetryHud) {
+                        TelemetryFpsPill(
+                            fps = fps,
+                            latencyMs = latencyMs
+                        )
+                    }
+                    if (proSummaryBadge != null || armedSummaryBadge != null) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            if (proSummaryBadge != null) {
+                                ActiveStatusBadge(
+                                    text = proSummaryBadge,
+                                    accentColor = RtkColorTokens.AccentCyan
+                                )
+                            }
+                            if (armedSummaryBadge != null) {
+                                ActiveStatusBadge(
+                                    text = armedSummaryBadge,
+                                    accentColor = RtkColorTokens.AccentMint
+                                )
+                            }
                         }
                     }
                 }
@@ -252,36 +236,6 @@ private fun ActiveStatusBadge(
                     color = accentColor
                 )
             )
-        }
-    }
-}
-
-/**
- * Settings gear button with full 48x48dp ergonomic touch target.
- */
-@Composable
-private fun SettingsPillButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .size(48.dp)
-            .clip(CircleShape)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Surface(
-            color = RtkColorTokens.SurfaceControl.copy(alpha = 0.85f),
-            shape = CircleShape,
-            border = BorderStroke(1.dp, RtkColorTokens.BorderControl),
-            modifier = Modifier.size(40.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    imageVector = RtkIcons.Settings,
-                    contentDescription = "Settings",
-                    tint = RtkColorTokens.TextPrimary,
-                    modifier = Modifier.size(19.dp)
-                )
-            }
         }
     }
 }

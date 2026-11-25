@@ -155,13 +155,13 @@ private fun PreviewHiFi06AutomatedCapture() {
     }
 }
 
-@Preview(name = "Hi-Fi 07 • Field & RTK Settings", widthDp = 393, heightDp = 852, showBackground = true)
+@Preview(name = "Hi-Fi 07 • Help & Field Guide", widthDp = 393, heightDp = 852, showBackground = true)
 @Composable
-private fun PreviewHiFi07Settings() {
+private fun PreviewHiFi07Help() {
     RtkCameraTheme {
         ViewfinderContent(
             uiState = CameraUiState(
-                activeSheet = ActiveSheet.SETTINGS
+                activeSheet = ActiveSheet.HELP
             ),
             callbacks = ViewfinderCallbacks()
         )

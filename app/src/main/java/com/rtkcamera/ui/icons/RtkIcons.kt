@@ -595,6 +595,81 @@ object RtkIcons {
         }
     }
 
+    val Help: ImageVector by lazy {
+        materialIcon("Help") {
+            moveTo(11f, 18f)
+            horizontalLineToRelative(2f)
+            verticalLineToRelative(-2f)
+            horizontalLineToRelative(-2f)
+            verticalLineToRelative(2f)
+            close()
+            moveTo(12f, 2f)
+            curveTo(6.48f, 2f, 2f, 6.48f, 2f, 12f)
+            reflectiveCurveToRelative(4.48f, 10f, 10f, 10f)
+            reflectiveCurveToRelative(10f, -4.48f, 10f, -10f)
+            reflectiveCurveTo(17.52f, 2f, 12f, 2f)
+            close()
+            moveTo(12f, 20f)
+            curveToRelative(-4.41f, 0f, -8f, -3.59f, -8f, -8f)
+            reflectiveCurveToRelative(3.59f, -8f, 8f, -8f)
+            reflectiveCurveToRelative(8f, 3.59f, 8f, 8f)
+            reflectiveCurveToRelative(-3.59f, 8f, -8f, 8f)
+            close()
+            moveTo(12f, 6f)
+            curveToRelative(-2.21f, 0f, -4f, 1.79f, -4f, 4f)
+            horizontalLineToRelative(2f)
+            curveToRelative(0f, -1.1f, 0.9f, -2f, 2f, -2f)
+            reflectiveCurveToRelative(2f, 0.9f, 2f, 2f)
+            curveToRelative(0f, 2f, -3f, 1.75f, -3f, 5f)
+            horizontalLineToRelative(2f)
+            curveToRelative(0f, -2.25f, 3f, -2.5f, 3f, -5f)
+            curveToRelative(0f, -2.21f, -1.79f, -4f, -4f, -4f)
+            close()
+        }
+    }
+
+    val ChevronRight: ImageVector by lazy {
+        materialIcon("ChevronRight") {
+            moveTo(10f, 6f)
+            lineTo(8.59f, 7.41f)
+            lineTo(13.17f, 12f)
+            lineToRelative(-4.58f, 4.59f)
+            lineTo(10f, 18f)
+            lineToRelative(6f, -6f)
+            close()
+        }
+    }
+
+    val MenuBook: ImageVector by lazy {
+        materialIcon("MenuBook") {
+            moveTo(21f, 5f)
+            curveToRelative(-1.11f, -0.35f, -2.33f, -0.5f, -3.5f, -0.5f)
+            curveToRelative(-1.95f, 0f, -4.05f, 0.4f, -5.5f, 1.5f)
+            curveToRelative(-1.45f, -1.1f, -3.55f, -1.5f, -5.5f, -1.5f)
+            reflectiveCurveTo(2.45f, 4.9f, 1f, 6f)
+            verticalLineToRelative(14.65f)
+            curveToRelative(0f, 0.25f, 0.25f, 0.5f, 0.5f, 0.5f)
+            curveToRelative(0.1f, 0f, 0.15f, -0.05f, 0.25f, -0.05f)
+            curveTo(3.1f, 20.45f, 5.05f, 20f, 6.5f, 20f)
+            curveToRelative(1.95f, 0f, 4.05f, 0.4f, 5.5f, 1.5f)
+            curveToRelative(1.35f, -0.85f, 3.8f, -1.5f, 5.5f, -1.5f)
+            curveToRelative(1.65f, 0f, 3.35f, 0.3f, 4.75f, 1.05f)
+            curveToRelative(0.1f, 0.05f, 0.15f, 0.05f, 0.25f, 0.05f)
+            curveToRelative(0.25f, 0f, 0.5f, -0.25f, 0.5f, -0.5f)
+            verticalLineTo(6f)
+            curveToRelative(-0.6f, -0.45f, -1.25f, -0.75f, -2f, -1f)
+            close()
+            moveTo(21f, 18.5f)
+            curveToRelative(-1.1f, -0.35f, -2.3f, -0.5f, -3.5f, -0.5f)
+            curveToRelative(-1.7f, 0f, -4.15f, 0.65f, -5.5f, 1.5f)
+            verticalLineTo(8f)
+            curveToRelative(1.35f, -0.85f, 3.8f, -1.5f, 5.5f, -1.5f)
+            curveToRelative(1.2f, 0f, 2.4f, 0.15f, 3.5f, 0.5f)
+            verticalLineToRelative(11.5f)
+            close()
+        }
+    }
+
     private fun materialIcon(
         name: String,
         block: PathBuilder.() -> Unit

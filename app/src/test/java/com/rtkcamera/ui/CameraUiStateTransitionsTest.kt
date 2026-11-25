@@ -141,6 +141,22 @@ class CameraUiStateTransitionsTest {
     }
 
     @Test
+    fun helpSheet_navigatesSubsectionsAndResetsOnDismiss() {
+        val opened = CameraUiTransitions.openSheet(CameraUiState(), ActiveSheet.HELP)
+        assertEquals(ActiveSheet.HELP, opened.activeSheet)
+        assertEquals(HelpSection.MENU, opened.appSettings.activeHelpSection)
+
+        val tutorial = CameraUiTransitions.updateSettings(opened) {
+            it.copy(activeHelpSection = HelpSection.TUTORIAL)
+        }
+        assertEquals(HelpSection.TUTORIAL, tutorial.appSettings.activeHelpSection)
+
+        val dismissed = CameraUiTransitions.dismissSheet(tutorial)
+        assertEquals(ActiveSheet.NONE, dismissed.activeSheet)
+        assertEquals(HelpSection.MENU, dismissed.appSettings.activeHelpSection)
+    }
+
+    @Test
     fun settingsSheet_togglesOverlaysAndDemoStates() {
         val base = CameraUiState()
         val updated = CameraUiTransitions.updateSettings(base) {

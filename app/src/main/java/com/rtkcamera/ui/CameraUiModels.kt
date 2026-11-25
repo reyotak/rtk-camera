@@ -57,7 +57,17 @@ enum class ActiveSheet {
     ALGORITHM_TUNING,
     PRO_PARAMETERS,
     AUTOMATED_CAPTURE,
-    SETTINGS
+    HELP
+}
+
+/**
+ * Sub-sections navigable inside the Help & Info bottom sheet.
+ */
+enum class HelpSection {
+    MENU,
+    TUTORIAL,
+    CONTROLS_GUIDE,
+    ABOUT
 }
 
 /**
@@ -231,9 +241,10 @@ data class AutomatedCaptureState(
 }
 
 /**
- * UI state for Hi-Fi 07 • App & RTK Field Settings Sheet.
+ * UI state for Hi-Fi 07 • Help, Tutorial, About & HUD Diagnostics Sheet.
  */
 data class AppSettingsState(
+    val activeHelpSection: HelpSection = HelpSection.MENU,
     val showRuleOfThirdsGrid: Boolean = false,
     val showAspectFramingGuides: Boolean = false,
     val showTelemetryHud: Boolean = true,
@@ -320,7 +331,10 @@ object CameraUiTransitions {
     }
 
     fun dismissSheet(state: CameraUiState): CameraUiState =
-        state.copy(activeSheet = ActiveSheet.NONE)
+        state.copy(
+            activeSheet = ActiveSheet.NONE,
+            appSettings = state.appSettings.copy(activeHelpSection = HelpSection.MENU)
+        )
 
     fun startOrStopVideoRecording(state: CameraUiState): CameraUiState =
         when (state.captureState) {

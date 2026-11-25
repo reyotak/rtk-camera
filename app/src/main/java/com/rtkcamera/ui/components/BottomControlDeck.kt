@@ -40,7 +40,10 @@ import com.rtkcamera.ui.icons.RtkIcons
 import com.rtkcamera.ui.theme.RtkColorTokens
 
 /**
- * Ergonomic Bottom Control Deck matching Hi-Fi 01a, 01b, 01c, 01d, and 03.
+ * Symmetrical 3-row Ergonomic Bottom Control Deck:
+ * - Row 1: Pro Parameters (48dp) | Tactile Shutter (76dp) | Automated Capture (48dp)
+ * - Row 2: Gallery (48dp) | Filter Pill (dead-center) | Help (48dp)
+ * - Row 3: Dual-State Photo | Video Mode Strip (dead-center)
  */
 @Composable
 fun BottomControlDeck(
@@ -55,6 +58,7 @@ fun BottomControlDeck(
     onAutomatedCaptureClick: () -> Unit,
     onGalleryClick: () -> Unit,
     onAlgorithmPillClick: () -> Unit,
+    onHelpClick: () -> Unit,
     onSelectCaptureMode: (CaptureMode) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -63,12 +67,12 @@ fun BottomControlDeck(
             .fillMaxWidth()
             .background(RtkColorTokens.CanvasBlack)
             .navigationBarsPadding()
-            .padding(top = 18.dp, bottom = 22.dp, start = 20.dp, end = 20.dp),
+            .padding(top = 14.dp, bottom = 14.dp, start = 20.dp, end = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (captureState) {
             is CaptureState.Idle -> {
-                // Row 1: Pro Parameters | 76dp Tactile Shutter | Automated Capture Timer
+                // Row 1: Pro Parameters (48dp) | 76dp Tactile Shutter | Automated Capture Timer (48dp)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -103,13 +107,13 @@ fun BottomControlDeck(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(22.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-                // Row 2: Gallery | Algorithm Selector Pill | Dual-State Mode Switch (Photo | Video)
+                // Row 2: Gallery (48dp) | Algorithm Selector Pill (dead-center) | Help (48dp)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     GalleryThumbButton(onClick = onGalleryClick)
 
@@ -119,18 +123,23 @@ fun BottomControlDeck(
                         modifier = Modifier.weight(1f)
                     )
 
-                    SegmentedModeSwitchPill(
-                        captureMode = captureMode,
-                        onSelectCaptureMode = onSelectCaptureMode
-                    )
+                    HelpDeckButton(onClick = onHelpClick)
                 }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Row 3: Centered Photo | Video Segmented Mode Strip
+                SegmentedModeSwitchPill(
+                    captureMode = captureMode,
+                    onSelectCaptureMode = onSelectCaptureMode
+                )
             }
 
             is CaptureState.VideoRecording -> {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 14.dp),
+                        .padding(horizontal = 24.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -151,14 +160,13 @@ fun BottomControlDeck(
 
                     Spacer(modifier = Modifier.size(48.dp))
                 }
-                Spacer(modifier = Modifier.height(56.dp))
+                // Preserves exact shutter vertical alignment with Idle state (zero layout jump)
+                Spacer(modifier = Modifier.height(116.dp))
             }
 
             is CaptureState.PhotoCapturing, is CaptureState.Countdown -> {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 14.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     TactileShutterButton(
@@ -167,7 +175,7 @@ fun BottomControlDeck(
                         onClick = {}
                     )
                 }
-                Spacer(modifier = Modifier.height(56.dp))
+                Spacer(modifier = Modifier.height(116.dp))
             }
         }
     }
@@ -308,17 +316,10 @@ private fun AlgorithmSelectorPill(
             .clickable(onClick = onClick)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 12.dp),
+            modifier = Modifier.padding(horizontal = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Icon(
-                imageVector = RtkIcons.Flash,
-                contentDescription = null,
-                tint = RtkColorTokens.AccentAmber,
-                modifier = Modifier.size(15.dp)
-            )
-            Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = label,
                 maxLines = 1,
@@ -341,8 +342,30 @@ private fun AlgorithmSelectorPill(
     }
 }
 
+@Composable
+private fun HelpDeckButton(onClick: () -> Unit) {
+    Surface(
+        color = RtkColorTokens.SurfaceDeckButton.copy(alpha = 0.95f),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.5.dp, RtkColorTokens.BorderMuted),
+        modifier = Modifier
+            .size(48.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(onClick = onClick)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Icon(
+                imageVector = RtkIcons.Help,
+                contentDescription = "Help",
+                tint = RtkColorTokens.TextMuted,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+    }
+}
+
 /**
- * Unambiguous dual-state Photo / Video segmented pill switch.
+ * Centered dual-state Photo | Video segmented mode strip.
  */
 @Composable
 private fun SegmentedModeSwitchPill(
@@ -354,31 +377,43 @@ private fun SegmentedModeSwitchPill(
 
     Surface(
         color = RtkColorTokens.SurfaceDeckButton.copy(alpha = 0.95f),
-        shape = RoundedCornerShape(24.dp),
-        border = BorderStroke(1.5.dp, RtkColorTokens.BorderMuted),
-        modifier = Modifier.height(48.dp)
+        shape = RoundedCornerShape(20.dp),
+        border = BorderStroke(1.dp, RtkColorTokens.BorderMuted),
+        modifier = Modifier.height(40.dp)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 4.dp),
+            modifier = Modifier.padding(horizontal = 4.dp, vertical = 3.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             // Photo segment
             Surface(
                 color = if (isPhoto) RtkColorTokens.AccentCyan.copy(alpha = 0.2f) else Color.Transparent,
-                shape = CircleShape,
+                shape = RoundedCornerShape(17.dp),
                 border = if (isPhoto) BorderStroke(1.2.dp, RtkColorTokens.AccentCyan) else null,
                 modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
+                    .height(34.dp)
+                    .clip(RoundedCornerShape(17.dp))
                     .clickable { onSelectCaptureMode(CaptureMode.PHOTO) }
             ) {
-                Box(contentAlignment = Alignment.Center) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
                     Icon(
                         imageVector = RtkIcons.PhotoCamera,
                         contentDescription = "Photo Mode",
                         tint = if (isPhoto) RtkColorTokens.AccentCyan else RtkColorTokens.TextMuted,
-                        modifier = Modifier.size(19.dp)
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Text(
+                        text = "PHOTO",
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontSize = 11.sp,
+                            fontWeight = if (isPhoto) FontWeight.Bold else FontWeight.Medium,
+                            color = if (isPhoto) RtkColorTokens.AccentCyan else RtkColorTokens.TextMuted
+                        )
                     )
                 }
             }
@@ -386,19 +421,31 @@ private fun SegmentedModeSwitchPill(
             // Video segment
             Surface(
                 color = if (isVideo) RtkColorTokens.AccentRed.copy(alpha = 0.22f) else Color.Transparent,
-                shape = CircleShape,
+                shape = RoundedCornerShape(17.dp),
                 border = if (isVideo) BorderStroke(1.2.dp, RtkColorTokens.AccentRed) else null,
                 modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
+                    .height(34.dp)
+                    .clip(RoundedCornerShape(17.dp))
                     .clickable { onSelectCaptureMode(CaptureMode.VIDEO) }
             ) {
-                Box(contentAlignment = Alignment.Center) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
                     Icon(
                         imageVector = RtkIcons.Videocam,
                         contentDescription = "Video Mode",
                         tint = if (isVideo) RtkColorTokens.AccentRedSoft else RtkColorTokens.TextMuted,
-                        modifier = Modifier.size(19.dp)
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Text(
+                        text = "VIDEO",
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontSize = 11.sp,
+                            fontWeight = if (isVideo) FontWeight.Bold else FontWeight.Medium,
+                            color = if (isVideo) RtkColorTokens.AccentRedSoft else RtkColorTokens.TextMuted
+                        )
                     )
                 }
             }
