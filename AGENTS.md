@@ -1,5 +1,3 @@
-<!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
-at specs/002-viewfinder-preview/plan.md
-<!-- SPECKIT END -->
+# Agent Context
+
+For project purpose, architecture, technology stack, native plugin contracts, repository structure, and build/test commands, read the High-Level Design document at [docs/HLD.md](docs/HLD.md).
